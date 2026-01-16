@@ -1,0 +1,380 @@
+\input{macros.tex}
+
+\title{Hyperfocused Derivation of Hydrogen Energy Levels: From Scratch}
+\author{Heewon Lee}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\section{State Representation}
+\subsection{The Hilbert Space}
+The defining postulate of quantum mechanics is that the state of a system
+is described with an element in a Hilbert space.
+Say the state of a system is a ket vector $\Ket{\alpha} \in \hilbert$.
+An observable property is represented by an operator $A: \hilbert \rightarrow \hilbert$.
+We presume the operator is normal, in which case it has a spectral decomposition
+\[
+    A = \int d\mu(\lambda) \lambda \Ket{\lambda}{\lambda}.
+\]
+A possible observed value is an eigenvalue $\lambda$ of the operator,
+so all eigenvalues being real is equivalent to $A$ being Hermitian, that is $A^\dag = A$.
+When the system $\Ket{\alpha}$ is observed with respect to the observable $A$,
+it randomly collapses to one of its eigenkets $\Ket{\lambda}$
+with probability $\abs{\Braket{\lambda | \alpha}}^2$.
+The total probability adding up to 1 can be stated as
+\[
+    1
+    = \int d\mu(\lambda) \abs{\Braket{\lambda | \alpha}}^2
+    = \Bra{\alpha} \left( \int d\mu(\lambda) \Ket{\lambda}\Bra{\lambda} \right) \Ket{\alpha}
+    = \Braket{\alpha | \alpha}.
+\]
+This is succinctly referred to as $\Ket{\alpha}$ being normalized.
+
+\subsection{Time Evolution}
+Suppose a system in state $\Ket{\alpha, t_0}$ at time $t_0$
+evolves to some other state $\Ket{\alpha, t_0; t}$ at time $t$.
+We make four assumptions:
+\begin{enumerate}
+    \item \emph{Time evolution is linear:}
+        $\Ket{\alpha, t_0; t} = U(t_0, t)\Ket{\alpha, t_0}$
+        for some linear operator $U(t_0, t): \hilbert \rightarrow \hilbert$.
+
+    \item \emph{Probability is conserved:}
+        $\Braket{\alpha, t_0; t | \alpha, t_0; t} = 1$.
+        This is equivalent to $U^\dag(t_0, t) = U^{-1}(t_0, t)$,
+        which we call unitary.
+
+    \item \emph{Time evolution composes:}
+        $U(t_1, t_2) U(t_0, t_1) = U(t_0, t_2)$ for $t_0 < t_1 < t_2$.
+
+    \item \emph{Time evolution is continuous:}
+        $\lim_{t \rightarrow t_0^+} U(t_0, t) = 1$.
+\end{enumerate}
+If we apply these to the infinitesimal evolution $U(t_0, t_0 + dt)$,
+we find that there is some Hermitian operator $H(t)$ such that
+\[
+    U(t_0, t_0 + dt) = 1 - \frac{iH(t_0)dt}{\hbar}.
+\]
+This operator $H$ is the generator of time evolution,
+which is also a description of the Hamiltonian/energy of a classical system.
+Therefore, we extend this terminology and say $H(t)$ is the operator
+corresponding to the Hamiltonian of the system.
+
+\subsection{3D Space}
+We want to describe the Hilbert space
+\[
+    \hilbert = \spn\Set{\Ket{\mathbb{r}'} | \mathbb{r}' \in \mathbb{R}^3}.
+\]
+An element of this space would take the form
+\[
+    \Ket{\alpha}
+    = \int d^3x' \Ket{\mathbb{r}'} \Braket{\mathbb{r}' | \alpha}
+    := \int d^3x' \Ket{\mathbb{r}'} \psi_\alpha \left( \mathbb{r}' \right).
+\]
+This definition leads to the delta normalization:
+\[
+    \Braket{\mathbb{r}'' | \mathbb{r}'} = \delta^3 \left( \mathbb{r}'' - \mathbb{r}' \right).
+\]
+A translation by a vector $\mathbb{a}$ would be represented with an operator $\mathcal{T}(\mathbb{a})$
+such that $\mathcal{T}(\mathbb{a}) \Ket{\mathbb{r}'} = \Ket{\mathbb{r}' + \mathbb{a}}$.
+From $\mathcal{T}(\mathbb{a}) = \int d^3x' \Ket{\mathbb{r}' + \mathbb{a}} \Bra{\mathbb{r}'}$,
+we can prove compositionality $\mathcal{T}(\mathbb{b}) \mathcal{T}(\mathbb{a}) = \mathcal{T}(\mathbb{a} + \mathbb{b})$
+and inversion $\mathcal{T}^\dag(\mathbb{a}) = \mathcal{T}(-\mathbb{a}) = \mathcal{T}^{-1} (\mathbb{a})$.
+Assuming continuity, similar arguments as the time evolution operator allows us to write
+\[
+    \mathcal{T}(d\mathbb{r}) = 1 - \frac{i\mathbb{p} \cdot d\mathbb{r}}{\hbar}
+\]
+for some Hermitian operator $\mathbb{p}$.
+The two equations
+\[
+    \Braket{\mathbb{r}' | \mathcal{T}(d\mathbb{r}') | \alpha}
+    = \Braket{\mathbb{r}' - d\mathbb{r}' | \alpha}
+    = \Braket{\mathbb{r}' | \alpha} - d\mathbb{r}' \cdot \nabla' \Braket{\mathbb{r}' | \alpha}
+\]
+and
+\[
+    \Braket{\mathbb{r}' | \mathcal{T}(d\mathbb{r}') | \alpha}
+    = \Braket{\mathbb{r}' | \alpha} - \frac{i}{\hbar} d\mathbb{r}' \cdot \Braket{\mathbb{r}' | \mathbb{p} | \alpha}
+\]
+can be compared to find
+\[
+    \Braket{\mathbb{r}' | \mathbb{p} | \alpha}
+    = -i\hbar \nabla' \Braket{\mathbb{r}' | \alpha}.
+\]
+This representation allows for easy computation of the commutation relations:
+\[
+    \comm{x_i}{x_j} = \comm{p_i}{p_j} = 0,\quad
+    \comm{x_i}{p_j} = i\hbar \delta_{ij}.
+\]
+Here, we have defined the position operators
+\[
+    \mathbb{r} := \int d^3x' \mathbb{r}' \Ket{\mathbb{r}'}\Bra{\mathbb{r}'}.
+\]
+
+\subsection{Rotation}
+For a 3D rotation $R \in SO(3)$, we expect there to be a corresponding rotation operator
+\[
+    \mathcal{D}(R) \Ket{\mathbb{r}'} = \Ket{R\mathbb{r}'}.
+\]
+The rotation around a unit vector $\unitvec{n}$ by an angle $\phi$ can be found as
+\[
+    R\left(\phi\unitvec{n}\right) \mathbb{r}'
+    = \cos\phi\mathbb{r}'
+      + \left( 1 - \cos\phi \right) \left( \mathbb{r}'\cdot\unitvec{n} \right) \unitvec{n}
+      + \sin\phi \unitvec{n}\times\mathbb{r}',
+\]
+which for small angles $\epsilon$, becomes
+$R\left(\epsilon\unitvec{n}\right)\mathbb{r}' = \mathbb{r}' + \epsilon \unitvec{n}\times\mathbb{r}'$.
+From this, we may write
+\[
+    \mathcal{D}\left(R\left(\epsilon\unitvec{n}\right)\right) \Ket{\mathbb{r}'}
+    = \Ket{\mathbb{r}' + \epsilon\unitvec{n}\times\mathbb{r}'}
+    = \mathcal{T}\left(\epsilon\unitvec{n}\times\mathbb{r}'\right) \Ket{\mathbb{r}'}
+    = \left( 1 - \frac{i\epsilon}{\hbar} \mathbb{p}\cdot\left(\unitvec{n}\times\mathbb{r}'\right) \right) \Ket{\mathbb{r}'}.
+\]
+Hence, defining the angular momentum operator $\mathbb{L} := \mathbb{r}\times\mathbb{p}$,
+we obtain $\mathcal{D}\left(R\left(\epsilon\unitvec{n}\right)\right) = 1 - \frac{i\mathbb{L}\cdot\epsilon\unitvec{n}}{\hbar}$.
+The definition allows the following commutation relations:
+\[
+    \comm{L_i}{x_j} = \varepsilon_{ijk}x_k,\quad
+    \comm{L_i}{r^2} = 0,\quad
+    \comm{L_i}{p_j} = \varepsilon_{ijk}p_k,\quad
+    \comm{L_i}{p^2} = 0,\quad
+    \comm{L_i}{L_j} = \varepsilon_{ijk}L_k,\quad
+    \comm{L_i}{\mathbb{L}^2} = 0.
+\]
+Notice that $\mathcal{D}(R_2)\mathcal{D}(R_1) = \mathcal{D}(R_2 R_1)$
+and $\mathcal{D}^\dag(R) = \mathcal{D}\left(R^{-1}\right) = \mathcal{D}^{-1}(R)$,
+implying $\mathbb{L}^\dag = \mathbb{L}$.
+We can obtain the representation of $\mathbb{L}$ in spherical coordinates by comparing
+\[
+    \Braket{\mathbb{r}' | \mathcal{D}\left(\epsilon\unitvec{n}\right) | \alpha}
+    = \Braket{\mathbb{r}' - \epsilon\unitvec{n}\times\mathbb{r}' | \alpha}
+    = \Braket{\mathbb{r}' | \alpha} - \epsilon \left(\unitvec{n}\times\mathbb{r}'\right) \cdot \nabla' \Braket{\mathbb{r}' | \alpha}
+\]
+and
+\[
+    \Braket{\mathbb{r}' | \mathcal{D}\left(\epsilon\unitvec{n}\right) | \alpha}
+    = \Braket{\mathbb{r}' | \alpha} - \frac{i\epsilon\unitvec{n}}{\hbar} \cdot \Braket{\mathbb{r}' | \mathbb{L} | \alpha}, 
+\]
+which then yields
+\[
+    \Braket{\mathbb{r}' | \mathbb{L} | \alpha}
+    = -i\hbar\mathbb{r}' \times \nabla' \Braket{\mathbb{r}' | \alpha}
+    = \left(
+            - i\hbar \frac{\partial}{\partial\theta'} \unitvec{\phi}'
+            + i\hbar \csc\theta' \frac{\partial}{\partial\phi'} \unitvec{\theta}'
+      \right) \Braket{\mathbb{r}' | \alpha}
+\]
+or
+\[
+    \Braket{\mathbb{r}' | L_x | \alpha}
+    = \left(
+            -i\hbar \sin\phi' \frac{\partial}{\partial\theta'}
+            -i\hbar \cot\theta' \cos\phi' \frac{\partial}{\partial\phi'}
+      \right) \Braket{\mathbb{r}' | \alpha}
+\]
+\[
+    \Braket{\mathbb{r}' | L_y | \alpha}
+    = \left(
+             i\hbar \cos\phi' \frac{\partial}{\partial\theta'}
+            -i\hbar \cot\theta' \sin\phi' \frac{\partial}{\partial\phi'}
+      \right) \Braket{\mathbb{r}' | \alpha}
+\]
+\[
+    \Braket{\mathbb{r}' | L_z | \alpha}
+    = -i\hbar \frac{\partial}{\partial\phi'} \Braket{\mathbb{r}' | \alpha}.
+\]
+We could square these and add them up to find the representation of $\mathbb{L}^2$,
+but we can more easily get it by observing
+\[
+    \mathbb{L}^2
+    = \varepsilon_{ijk}\varepsilon_{lmk} x_i p_j x_l p_m
+    = \cdots
+    = r^2 p^2 - \left(\mathbb{r} \cdot \mathbb{p}\right)^2 + i\hbar \mathbb{r} \cdot \mathbb{p},
+\]
+which thus leads to
+\[
+    \Braket{\mathbb{r}' | \mathbb{L}^2 | \alpha}
+    = -\hbar^2 r'^2 \left(
+            \nabla'^2 - \frac{\partial^2}{\partial r'^2} - \frac{2}{r'}\frac{\partial}{\partial r'}
+      \right) \Braket{\mathbb{r}' | \alpha}
+    = -\hbar^2 \left(
+            \frac{1}{\sin\theta'} \frac{\partial}{\partial\theta'} \left(
+                \sin\theta' \frac{\partial}{\partial\theta'}
+            \right)
+            + \frac{1}{\sin^2\theta'} \frac{\partial^2}{\partial\phi'^2}
+      \right) \Braket{\mathbb{r}' | \alpha}.
+\]
+
+% =============================================
+\section{Hydrogen Atom}
+\subsection{Compatible Observables}
+Suppose two observables $A$ and $B$ commute, i.e., $\comm{A}{B} = 0$.
+We prove that the two have a common eigenbasis of $\hilbert$.
+Let $\Ket{a, \lambda}$ denote an eigenbasis of $A$ with eigenvalue $a$.
+Notice that
+\[
+    A\left(B\Ket{a, \lambda}\right) = BA\Ket{a, \lambda} = a\left(B\Ket{a,\lambda}\right),
+\]
+so $B\Ket{a,\lambda}$ is also an eigenket of $A$ with eigenvalue $a$.
+This allows us to write
+\[
+    B\Ket{a, \lambda}
+    = \int d\mu(\lambda') K(\lambda', \lambda) \Ket{a, \lambda'}
+\]
+where the kernel $K$ is defined to be
+\[
+    K(\lambda', \lambda)
+    := \Braket{a, \lambda' | B | a, \lambda}.
+\]
+Assuming compactness of this kernel, therefore,
+we can find another basis $\Set{\Ket{a, \rho}}$ for this eigenspace, where
+\[
+    \Ket{a, \rho} = \int d\mu(\lambda) L(\lambda, \rho) \Ket{a, \lambda}
+\]
+and
+\[
+    A\Ket{a, \rho} = a\Ket{a, \rho},\quad B\Ket{a, \rho} = b(\rho) \Ket{a, \rho}.
+\]
+Therefore, $A$ and $B$ are simultaneously diagonalizable.
+
+\subsection{Angular Momentum Basis}
+The Hamiltonian of a hydrogen atom is given by
+\[
+    H = \frac{p^2}{2\mu} - \frac{k}{r}\quad
+    \left( k = \frac{e^2}{4\pi\epsilon_0} \right),
+\]
+which incidentally commutes with $\mathbb{L}^2$ and $L_z$
+because the Coulomb potential shows spherical symmetry.
+This allows us to declare a simultaneous eigenbasis $\Set{\Ket{Eab}}$
+with eigenvalues $E, a, b$ for $H, \mathbb{L}^2, L_z$, respectively.
+
+Let $L_\pm := L_x \pm iL_y$.
+\[
+    \comm{L_z}{L_\pm} = \pm \hbar L_\pm,\quad
+    \comm{L_+}{L_-} = 2\hbar L_z,\quad
+    L_+ L_- = L_x^2 + L_y^2 + \hbar L_z
+    \Rightarrow \mathbb{L}^2
+    = L_+ L_- + L_z^2 - \hbar L_z
+    = L_- L_+ + L_z^2 + \hbar L_z
+\]
+We now try to find what eigenvalues $a, b$ are possible.
+\[
+    a
+    = \Braket{Eab | \mathbb{L}^2 | Eab}
+    = \left\lVert L_- \Ket{Eab} \right\rVert^2 + b^2 - \hbar b
+    = \left\lVert L_+ \Ket{Eab} \right\rVert^2 + b^2 + \hbar b
+\]
+\[
+    \Rightarrow a \geq b^2 + \hbar\abs{b}
+\]
+Hence, the range of $b$ is bounded for a given $a$, say between $b_{min}$ and $b_{max}$.
+But notice that $L_z \left( L_\pm \Ket{Eab} \right) = (b \pm \hbar) \left( L_\pm \Ket{Eab} \right)$.
+Thus, we must have $L_+ \Ket{Eab_{max}} = L_- \Ket{Eab_{min}} = 0$,
+and also $b_{max} - b_{min} \in \hbar \mathbb{N}$.
+This also implies
+\[
+    a = b_{max}^2 - \hbar b_{max} = b_{min}^2 + \hbar b_{min}
+\]
+\[
+    \Rightarrow b_{max} = -b_{min} = \hbar j \; \left( j \in \frac{1}{2} \mathbb{N} \right),\quad
+    a = j (j + 1) \hbar^2,\quad
+    b = -j, -j+1, \dots, j-1, j.
+\]
+
+Now, let us employ the position-basis representation of $\mathbb{L}$ to get further restrictions.
+\[
+    \Braket{\mathbb{r}' | L_z | Ejm}
+    = -i\hbar \frac{\partial}{\partial\phi'} \Braket{\mathbb{r}' | Ejm}
+    = m\hbar \Braket{\mathbb{r}' | Ejm} \quad
+    \Rightarrow \Braket{\mathbb{r}' | Ejm} \propto e^{im\phi'}
+\]
+However, the wave function must be single-valued for $\phi'$ and $\phi' + 2\pi$;
+hence, $m$ must be an integer and thus $j = l \in \mathbb{N}$.
+\[
+    \Braket{\mathbb{r}' | \mathbb{L}^2 | Elm}
+    = -\hbar^2 \left(
+            \frac{1}{\sin\theta'}\frac{\partial}{\partial\theta'}\left(
+                \sin\theta'\frac{\partial}{\partial\theta'}
+            \right)
+            + \frac{1}{\sin^2\theta'}\frac{\partial^2}{\partial\phi'^2}
+      \right) \Braket{\mathbb{r}' | Elm}
+    = \hbar^2 l(l+1) \Braket{\mathbb{r}' | Elm}
+\]
+\[
+    \Rightarrow \left(
+        \frac{1}{\sin\theta'}\frac{\partial}{\partial\theta'}\left(
+            \sin\theta'\frac{\partial}{\partial\theta'}
+        \right)
+        - \frac{m^2}{\sin^2\theta'} - l(l+1)
+    \right) \Braket{\mathbb{r}' | Elm} = 0
+\]
+Thus, we may decompose the wavefunction into the radial part and the angular part:
+\[
+    \Braket{\mathbb{r}' | Elm} = R(r') \Theta_{lm}(\theta') e^{im\phi'}.
+\]
+
+\subsection{Energy Levels}
+We find the bound states of the hydrogen atom, i.e., $E < 0$.
+\[
+    \Braket{\mathbb{r}' | H | Elm}
+    = \left( -\frac{\hbar^2}{2\mu}\nabla'^2 - \frac{k}{r'} \right) \Braket{\mathbb{r}' | Elm}
+    = \left( -\frac{\hbar^2}{2\mu} \left(
+                \frac{\partial^2}{\partial r'^2}
+                + \frac{2}{r'}\frac{\partial}{\partial r'}
+                - \frac{l(l+1)}{r'^2}
+            \right) - \frac{k}{r'}
+      \right) \Braket{\mathbb{r}' | Elm}
+\]
+\[
+    \Rightarrow \frac{d^2 R}{dr'^2}
+    + \frac{2}{r'}\frac{dR}{dr'}
+    + \left( \frac{2\mu E}{\hbar^2} - \frac{l(l+1)}{r'^2} + \frac{2\mu k}{\hbar^2 r'} \right) R
+    = 0
+\]
+Let us define $\kappa := \frac{\sqrt{2\mu\abs{E}}}{\hbar}$ and $\lambda := \frac{\mu k}{\hbar}$.
+For $r'\rightarrow\infty$, $\frac{d^2 R}{dr'^2} \approx \kappa^2 R \Rightarrow R \sim e^{\pm \kappa r'}$.
+For $r'\rightarrow0+$, similarly, we have
+\[
+    \frac{d^2 R}{dr'^2} + \frac{2}{r'}\frac{dR}{dr'} - \frac{l(l+1)}{r'^2} \approx 0
+    \Rightarrow R \sim r'^l \text{ or } r'^{-l-1}.
+\]
+For normalizability, hence, we require that $R(r') = f(r') r'^l e^{-\kappa r'}$
+for some ``well-behaved'' function $f(r')$.
+Substitution yields the new differential equation
+\[
+    r'\frac{d^2 f}{dr'^2} + 2(l + 1 - \kappa r')\frac{df}{dr'} + 2(\lambda - (l+1)\kappa)f = 0.
+\]
+Suppose $f(r') = \sum_{k=0}^\infty c_k r'^k$ for unknown coefficients $c_k$.
+The differential equation then becomes
+\[
+    \sum_{k=0}^\infty \left(
+        (k+1)(k+2l+2)c_{k+1} - 2(\kappa(k + l + 1) - \lambda)c_k
+    \right) r'^k = 0
+\]
+\[
+    \Rightarrow c_{k+1} = \frac{2(\kappa(k+l+1) - \lambda)}{(k+1)(k+2l+2)} c_k.
+\]
+Now, if every coefficient were nonzero, then for large $k$,
+\[
+    c_k \sim \frac{(2\kappa)^k}{k!}
+    \Rightarrow f(r') \sim e^{2\kappa r'},
+\]
+which would render $R(r')$ non-normalizable.
+Therefore, the sequence $\Set{c_k}$ must terminate, i.e.,
+there must exist some $k_0 \in \mathbb{N}$ such that $\kappa(k_0+l+1) - \lambda = 0$.
+Relabelling as $n := k_0 + l + 1 \in \mathbb{Z}_>$ (rendering $l = 0, 1, \dots, n - 1$),
+we finally obtain
+\[
+    E_n = -\frac{\mu k^2}{2\hbar^2 n^2} = -\frac{Z^2 e^4 \mu}{32\pi^2 \epsilon_0^2 \hbar^2 n^2},
+\]
+or using the fine-structure constant $\alpha := \frac{e^2}{4\pi \epsilon_0 \hbar c}$,
+\[
+    E_n = -\frac{\mu c^2 Z^2 \alpha^2}{2n^2}
+\]
+thus concluding the derivation.
+\hfill$\square$
+\end{document}
+

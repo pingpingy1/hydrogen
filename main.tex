@@ -70,8 +70,9 @@ An element of this space would take the form
 \[
     \Ket{\alpha}
     = \int d^3x' \Ket{\mathbb{r}'} \Braket{\mathbb{r}' | \alpha}
-    := \int d^3x' \Ket{\mathbb{r}'} \psi_\alpha \left( \mathbb{r}' \right).
+    =: \int d^3x' \Ket{\mathbb{r}'} \psi_\alpha \left( \mathbb{r}' \right)
 \]
+where we have defined the wave function $\psi_\alpha\left(\mathbb{r}'\right) := \Braket{\mathbb{r}' | \alpha}$.
 This definition leads to the delta normalization:
 \[
     \Braket{\mathbb{r}'' | \mathbb{r}'} = \delta^3 \left( \mathbb{r}'' - \mathbb{r}' \right).
@@ -83,7 +84,7 @@ we can prove compositionality $\mathcal{T}(\mathbb{b}) \mathcal{T}(\mathbb{a}) =
 and inversion $\mathcal{T}^\dag(\mathbb{a}) = \mathcal{T}(-\mathbb{a}) = \mathcal{T}^{-1} (\mathbb{a})$.
 Assuming continuity, similar arguments as the time evolution operator allows us to write
 \[
-    \mathcal{T}(d\mathbb{r}) = 1 - \frac{i\mathbb{p} \cdot d\mathbb{r}}{\hbar}
+    \mathcal{T}(d\mathbb{r}') = 1 - \frac{i\mathbb{p} \cdot d\mathbb{r}'}{\hbar}
 \]
 for some Hermitian operator $\mathbb{p}$.
 The two equations
@@ -256,6 +257,8 @@ Let $L_\pm := L_x \pm iL_y$.
     \comm{L_z}{L_\pm} = \pm \hbar L_\pm,\quad
     \comm{L_+}{L_-} = 2\hbar L_z,\quad
     L_+ L_- = L_x^2 + L_y^2 + \hbar L_z
+\]
+\[
     \Rightarrow \mathbb{L}^2
     = L_+ L_- + L_z^2 - \hbar L_z
     = L_- L_+ + L_z^2 + \hbar L_z
@@ -266,8 +269,6 @@ We now try to find what eigenvalues $a, b$ are possible.
     = \Braket{Eab | \mathbb{L}^2 | Eab}
     = \left\lVert L_- \Ket{Eab} \right\rVert^2 + b^2 - \hbar b
     = \left\lVert L_+ \Ket{Eab} \right\rVert^2 + b^2 + \hbar b
-\]
-\[
     \Rightarrow a \geq b^2 + \hbar\abs{b}
 \]
 Hence, the range of $b$ is bounded for a given $a$, say between $b_{min}$ and $b_{max}$.
@@ -372,7 +373,7 @@ we finally obtain
 \]
 or using the fine-structure constant $\alpha := \frac{e^2}{4\pi \epsilon_0 \hbar c}$,
 \[
-    E_n = -\frac{\mu c^2 Z^2 \alpha^2}{2n^2}
+    E_n = -\frac{\mu c^2 Z^2 \alpha^2}{2n^2} \approx -(13.6 \mathtt{ eV}) \frac{Z^2}{n^2}
 \]
 thus concluding the derivation.
 \hfill$\square$

@@ -15,7 +15,7 @@ Say the state of a system is a ket vector $\Ket{\alpha} \in \hilbert$.
 An observable property is represented by an operator $A: \hilbert \rightarrow \hilbert$.
 We presume the operator is normal, in which case it has a spectral decomposition
 \[
-    A = \int d\mu(\lambda) \lambda \Ket{\lambda}{\lambda}.
+    A = \int d\mu(\lambda) \lambda \Ket{\lambda}\Bra{\lambda}.
 \]
 A possible observed value is an eigenvalue $\lambda$ of the operator,
 so all eigenvalues being real is equivalent to $A$ being Hermitian, that is $A^\dag = A$.
@@ -289,7 +289,7 @@ Now, let us employ the position-basis representation of $\mathbb{L}$ to get furt
 \[
     \Braket{\mathbb{r}' | L_z | Ejm}
     = -i\hbar \frac{\partial}{\partial\phi'} \Braket{\mathbb{r}' | Ejm}
-    = m\hbar \Braket{\mathbb{r}' | Ejm} \quad
+    = m\hbar \Braket{\mathbb{r}' | Ejm} \;
     \Rightarrow \Braket{\mathbb{r}' | Ejm} \propto e^{im\phi'}
 \]
 However, the wave function must be single-valued for $\phi'$ and $\phi' + 2\pi$;
@@ -366,7 +366,7 @@ Now, if every coefficient were nonzero, then for large $k$,
 which would render $R(r')$ non-normalizable.
 Therefore, the sequence $\Set{c_k}$ must terminate, i.e.,
 there must exist some $k_0 \in \mathbb{N}$ such that $\kappa(k_0+l+1) - \lambda = 0$.
-Relabelling as $n := k_0 + l + 1 \in \mathbb{Z}_>$ (rendering $l = 0, 1, \dots, n - 1$),
+Relabelling as $n := k_0 + l + 1 \in \mathbb{Z}_{>0}$ (rendering $l = 0, 1, \dots, n - 1$),
 we finally obtain
 \[
     E_n = -\frac{\mu k^2}{2\hbar^2 n^2} = -\frac{Z^2 e^4 \mu}{32\pi^2 \epsilon_0^2 \hbar^2 n^2},
